@@ -30,14 +30,14 @@ const medusaConfig = {
   projectConfig: {
     databaseUrl: DATABASE_URL || '*',
     databaseLogging: false,
-    redisUrl: REDIS_URL,
-    workerMode: WORKER_MODE,
+    redisUrl: REDIS_URL || '*',
+    workerMode: WORKER_MODE || '*',
     http: {
       adminCors: ADMIN_CORS|| '*',
       authCors: AUTH_CORS|| '*',
       storeCors: STORE_CORS|| '*',
-      jwtSecret: JWT_SECRET,
-      cookieSecret: COOKIE_SECRET
+      jwtSecret: JWT_SECRET || '*',
+      cookieSecret: COOKIE_SECRET || '*'
     },
     build: {
       rollupOptions: {
@@ -46,8 +46,8 @@ const medusaConfig = {
     }
   },
   admin: {
-    backendUrl: BACKEND_URL,
-    disable: SHOULD_DISABLE_ADMIN,
+    backendUrl: BACKEND_URL || '*',
+    disable: SHOULD_DISABLE_ADMIN || false,
   },
   modules: [
     {
