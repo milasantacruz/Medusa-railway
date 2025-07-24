@@ -11,7 +11,7 @@
     "declaration": false,
     "sourceMap": false,
     "inlineSourceMap": true,
-    "outDir": "./.medusa/server",
+    "outDir": "./.medusa/client",
     "rootDir": "./",
     "jsx": "react-jsx",
     "forceConsistentCasingInFileNames": true,
@@ -28,7 +28,7 @@
   ],
   "exclude": [
     "node_modules",
-    ".medusa/server",
+    ".medusa/client",
     ".medusa/admin",
     ".cache"
   ]
