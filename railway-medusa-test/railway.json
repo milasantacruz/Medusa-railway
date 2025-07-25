@@ -1,0 +1,11 @@
+{
+    "build": {
+      "builder": "NIXPACKS",
+      "buildCommand": "yarn build"
+    },
+    "deploy": {
+      "startCommand": "yarn start",
+      "restartPolicyType": "ON_FAILURE"
+    }
+  }
+  
