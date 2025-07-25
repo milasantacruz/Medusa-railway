@@ -1,5 +1,10 @@
 import { Modules, defineConfig } from '@medusajs/utils';
-import { getConfig } from './lib/constants';
+import { getConfig } from './lib/constants';  
+import { loadEnv } from '@medusajs/framework/utils';
+
+// 👇 Esta línea es esencial para cargar las variables antes de usarlas
+loadEnv(process.env.NODE_ENV || 'development', process.cwd());
+
 
 const config = getConfig();
 
