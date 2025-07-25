@@ -4,7 +4,7 @@ FROM node:20
 WORKDIR /app
 COPY . .
 
-# Define argumentos de build (que Railway puede inyectar)
+# Define argumentos de build
 ARG DATABASE_URL
 ARG REDIS_URL
 ARG JWT_SECRET
@@ -26,7 +26,7 @@ ARG MINIO_BUCKET
 ARG MEILISEARCH_HOST
 ARG MEILISEARCH_ADMIN_KEY
 
-# Pasar args a env para que estén disponibles en tiempo de build
+# Pasar args a env
 ENV DATABASE_URL=$DATABASE_URL \
     REDIS_URL=$REDIS_URL \
     JWT_SECRET=$JWT_SECRET \
@@ -51,9 +51,12 @@ ENV DATABASE_URL=$DATABASE_URL \
 # Instalar dependencias
 RUN yarn install
 
-# Ejecutar build con las variables ya disponibles
-RUN yarn build
+# Ejecutar build y luego corregir saltos de línea en archivos generados
+RUN yarn build && \
+    find .medusa/client -type f -exec dos2unix {} \;
 
 WORKDIR /app/.medusa/client
 EXPOSE 9000
+
+# Debe estar al final
 CMD ["yarn", "start"]
