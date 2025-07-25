@@ -1,23 +1,59 @@
 # Imagen base
 FROM node:20
 
-# Establecer el directorio de trabajo
 WORKDIR /app
-
-# Copiar todos los archivos
 COPY . .
 
-# Instalar dependencias con Yarn
+# Define argumentos de build (que Railway puede inyectar)
+ARG DATABASE_URL
+ARG REDIS_URL
+ARG JWT_SECRET
+ARG COOKIE_SECRET
+ARG ADMIN_CORS
+ARG AUTH_CORS
+ARG STORE_CORS
+ARG BACKEND_URL
+ARG STRIPE_API_KEY
+ARG STRIPE_WEBHOOK_SECRET
+ARG RESEND_API_KEY
+ARG RESEND_FROM_EMAIL
+ARG SENDGRID_API_KEY
+ARG SENDGRID_FROM_EMAIL
+ARG MINIO_ENDPOINT
+ARG MINIO_ACCESS_KEY
+ARG MINIO_SECRET_KEY
+ARG MINIO_BUCKET
+ARG MEILISEARCH_HOST
+ARG MEILISEARCH_ADMIN_KEY
+
+# Pasar args a env para que estén disponibles en tiempo de build
+ENV DATABASE_URL=$DATABASE_URL \
+    REDIS_URL=$REDIS_URL \
+    JWT_SECRET=$JWT_SECRET \
+    COOKIE_SECRET=$COOKIE_SECRET \
+    ADMIN_CORS=$ADMIN_CORS \
+    AUTH_CORS=$AUTH_CORS \
+    STORE_CORS=$STORE_CORS \
+    BACKEND_URL=$BACKEND_URL \
+    STRIPE_API_KEY=$STRIPE_API_KEY \
+    STRIPE_WEBHOOK_SECRET=$STRIPE_WEBHOOK_SECRET \
+    RESEND_API_KEY=$RESEND_API_KEY \
+    RESEND_FROM_EMAIL=$RESEND_FROM_EMAIL \
+    SENDGRID_API_KEY=$SENDGRID_API_KEY \
+    SENDGRID_FROM_EMAIL=$SENDGRID_FROM_EMAIL \
+    MINIO_ENDPOINT=$MINIO_ENDPOINT \
+    MINIO_ACCESS_KEY=$MINIO_ACCESS_KEY \
+    MINIO_SECRET_KEY=$MINIO_SECRET_KEY \
+    MINIO_BUCKET=$MINIO_BUCKET \
+    MEILISEARCH_HOST=$MEILISEARCH_HOST \
+    MEILISEARCH_ADMIN_KEY=$MEILISEARCH_ADMIN_KEY
+
+# Instalar dependencias
 RUN yarn install
 
-# Ejecutar el build de Medusa y el postBuild.js
+# Ejecutar build con las variables ya disponibles
 RUN yarn build
 
-# Cambiar al cliente generado
 WORKDIR /app/.medusa/client
-
-# Exponer el puerto de Medusa (9000 por defecto)
 EXPOSE 9000
-
-# Comando para iniciar el servidor
 CMD ["yarn", "start"]

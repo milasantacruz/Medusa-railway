@@ -49,7 +49,7 @@ const medusaConfig = {
     backendUrl: BACKEND_URL,
     disable: SHOULD_DISABLE_ADMIN,
   },
-  modules: [
+ /* modules: [
     {
       key: Modules.FILE,
       resolve: '@medusajs/file',
@@ -157,7 +157,7 @@ const medusaConfig = {
         }
       }
     }] : [])
-  ]
+  ]*/
 };
 
 console.log(JSON.stringify(medusaConfig, null, 2));
