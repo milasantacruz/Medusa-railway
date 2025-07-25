@@ -1,4 +1,4 @@
-import { loadEnv, Modules, defineConfig } from '@medusajs/utils';
+import { Modules, defineConfig } from '@medusajs/utils';
 import {
   ADMIN_CORS,
   AUTH_CORS,
@@ -24,7 +24,7 @@ import {
   MEILISEARCH_ADMIN_KEY
 } from './lib/constants';
 
-loadEnv(process.env.NODE_ENV || 'development', process.cwd());
+//loadEnv(process.env.NODE_ENV || 'development', process.cwd());
 
 const medusaConfig = {
   projectConfig: {
