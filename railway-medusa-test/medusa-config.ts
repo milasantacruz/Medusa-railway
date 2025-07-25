@@ -33,8 +33,8 @@ const medusaConfig = {
     redisUrl: REDIS_URL,
     workerMode: WORKER_MODE || 'shared',
     http: {
-      adminCors: ADMIN_CORS|| '*',
-      authCors: AUTH_CORS|| 'http://localhost:5173',
+      adminCors: ADMIN_CORS|| 'https://medusa-railway-production-e40c.up.railway.app',
+      authCors: AUTH_CORS|| 'https://medusa-railway-production-e40c.up.railway.app',
       storeCors: STORE_CORS|| '*',
       jwtSecret: JWT_SECRET || 'supersecret',
       cookieSecret: COOKIE_SECRET || 'supersecret'
