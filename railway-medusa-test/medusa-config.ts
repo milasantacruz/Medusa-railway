@@ -34,7 +34,7 @@ const medusaConfig = {
     workerMode: WORKER_MODE || 'shared',
     http: {
       adminCors: ADMIN_CORS|| '*',
-      authCors: AUTH_CORS|| '*',
+      authCors: AUTH_CORS|| 'http://localhost:5173',
       storeCors: STORE_CORS|| '*',
       jwtSecret: JWT_SECRET || 'supersecret',
       cookieSecret: COOKIE_SECRET || 'supersecret'
