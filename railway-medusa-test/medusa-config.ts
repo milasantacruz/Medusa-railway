@@ -31,13 +31,13 @@ const medusaConfig = {
     databaseUrl: DATABASE_URL || '*',
     databaseLogging: false,
     redisUrl: REDIS_URL,
-    workerMode: WORKER_MODE,
+    workerMode: WORKER_MODE || 'shared',
     http: {
       adminCors: ADMIN_CORS|| '*',
       authCors: AUTH_CORS|| '*',
       storeCors: STORE_CORS|| '*',
-      jwtSecret: JWT_SECRET,
-      cookieSecret: COOKIE_SECRET
+      jwtSecret: JWT_SECRET || 'supersecret',
+      cookieSecret: COOKIE_SECRET || 'supersecret'
     },
     build: {
       rollupOptions: {
