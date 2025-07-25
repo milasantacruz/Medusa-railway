@@ -26,7 +26,5 @@ if (fs.existsSync(envPath)) {
 
 // Install dependencies
 console.log('Installing dependencies in .medusa/server...');
-execSync('pnpm i --prod --frozen-lockfile', { 
-  cwd: MEDUSA_SERVER_PATH,
-  stdio: 'inherit'
-});
+execSync('yarn install --production --frozen-lockfile', { cwd: MEDUSA_SERVER_PATH, stdio: 'inherit' });
+
