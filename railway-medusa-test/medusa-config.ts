@@ -1,43 +1,20 @@
-import { loadEnv, Modules, defineConfig } from '@medusajs/utils';
-import {
-  ADMIN_CORS,
-  AUTH_CORS,
-  BACKEND_URL,
-  COOKIE_SECRET,
-  DATABASE_URL,
-  JWT_SECRET,
-  REDIS_URL,
-  RESEND_API_KEY,
-  RESEND_FROM_EMAIL,
-  SENDGRID_API_KEY,
-  SENDGRID_FROM_EMAIL,
-  SHOULD_DISABLE_ADMIN,
-  STORE_CORS,
-  STRIPE_API_KEY,
-  STRIPE_WEBHOOK_SECRET,
-  WORKER_MODE,
-  MINIO_ENDPOINT,
-  MINIO_ACCESS_KEY,
-  MINIO_SECRET_KEY,
-  MINIO_BUCKET,
-  MEILISEARCH_HOST,
-  MEILISEARCH_ADMIN_KEY
-} from './lib/constants';
+import { Modules, defineConfig } from '@medusajs/utils';
+import { getConfig } from './lib/constants';
 
-loadEnv(process.env.NODE_ENV || 'development', process.cwd());
+const config = getConfig();
 
 const medusaConfig = {
   projectConfig: {
-    databaseUrl: DATABASE_URL || '*',
+    databaseUrl: config.DATABASE_URL,
     databaseLogging: false,
-    redisUrl: REDIS_URL,
-    workerMode: WORKER_MODE || 'shared',
+    redisUrl: config.REDIS_URL,
+    workerMode: config.WORKER_MODE,
     http: {
-      adminCors: ADMIN_CORS|| '*',
-      authCors: AUTH_CORS|| 'http://localhost:5173',
-      storeCors: STORE_CORS|| '*',
-      jwtSecret: JWT_SECRET || 'supersecret',
-      cookieSecret: COOKIE_SECRET || 'supersecret'
+      adminCors: config.ADMIN_CORS,
+      authCors: config.AUTH_CORS,
+      storeCors: config.STORE_CORS,
+      jwtSecret: config.JWT_SECRET,
+      cookieSecret: config.COOKIE_SECRET,
     },
     build: {
       rollupOptions: {
@@ -46,8 +23,8 @@ const medusaConfig = {
     }
   },
   admin: {
-    backendUrl: BACKEND_URL,
-    disable: SHOULD_DISABLE_ADMIN,
+    backendUrl: config.BACKEND_URL,
+    disable: config.SHOULD_DISABLE_ADMIN,
   },
   modules: [
     {
@@ -55,31 +32,31 @@ const medusaConfig = {
       resolve: '@medusajs/file',
       options: {
         providers: [
-          ...(MINIO_ENDPOINT && MINIO_ACCESS_KEY && MINIO_SECRET_KEY ? [{
+          ...(config.MINIO_ENDPOINT && config.MINIO_ACCESS_KEY && config.MINIO_SECRET_KEY ? [{
             resolve: './src/modules/minio-file',
             id: 'minio',
             options: {
-              endPoint: MINIO_ENDPOINT,
-              accessKey: MINIO_ACCESS_KEY,
-              secretKey: MINIO_SECRET_KEY,
-              bucket: MINIO_BUCKET // Optional, default: medusa-media
+              endPoint: config.MINIO_ENDPOINT,
+              accessKey: config.MINIO_ACCESS_KEY,
+              secretKey: config.MINIO_SECRET_KEY,
+              bucket: config.MINIO_BUCKET // Optional, default: medusa-media
             }
           }] : [{
             resolve: '@medusajs/file-local',
             id: 'local',
             options: {
               upload_dir: 'static',
-              backend_url: `${BACKEND_URL}/static`
+              backend_url: `${config.BACKEND_URL}/static`
             }
           }])
         ]
       }
     },
-    ...(REDIS_URL ? [{
+    ...(config.REDIS_URL ? [{
       key: Modules.EVENT_BUS,
       resolve: '@medusajs/event-bus-redis',
-      options: {
-        redisUrl: REDIS_URL
+      options: { 
+        redisUrl: config.REDIS_URL
       }
     },
     {
@@ -87,37 +64,37 @@ const medusaConfig = {
       resolve: '@medusajs/workflow-engine-redis',
       options: {
         redis: {
-          url: REDIS_URL,
+          url: config.REDIS_URL,
         }
       }
     }] : []),
-    ...(SENDGRID_API_KEY && SENDGRID_FROM_EMAIL || RESEND_API_KEY && RESEND_FROM_EMAIL ? [{
+    ...(config.SENDGRID_API_KEY && config.SENDGRID_FROM_EMAIL || config.RESEND_API_KEY && config.RESEND_FROM_EMAIL ? [{
       key: Modules.NOTIFICATION,
       resolve: '@medusajs/notification',
       options: {
         providers: [
-          ...(SENDGRID_API_KEY && SENDGRID_FROM_EMAIL ? [{
+          ...(config.SENDGRID_API_KEY && config.SENDGRID_FROM_EMAIL ? [{
             resolve: '@medusajs/notification-sendgrid',
             id: 'sendgrid',
             options: {
               channels: ['email'],
-              api_key: SENDGRID_API_KEY,
-              from: SENDGRID_FROM_EMAIL,
+              api_key: config.SENDGRID_API_KEY,
+              from: config.SENDGRID_FROM_EMAIL,
             }
           }] : []),
-          ...(RESEND_API_KEY && RESEND_FROM_EMAIL ? [{
+          ...(config.RESEND_API_KEY && config.RESEND_FROM_EMAIL ? [{
             resolve: './src/modules/email-notifications',
             id: 'resend',
             options: {
               channels: ['email'],
-              api_key: RESEND_API_KEY,
-              from: RESEND_FROM_EMAIL,
+              api_key: config.RESEND_API_KEY,
+              from: config.RESEND_FROM_EMAIL,
             },
           }] : []),
         ]
       }
     }] : []),
-    ...(STRIPE_API_KEY && STRIPE_WEBHOOK_SECRET ? [{
+    ...(config.STRIPE_API_KEY && config.STRIPE_WEBHOOK_SECRET ? [{
       key: Modules.PAYMENT,
       resolve: '@medusajs/payment',
       options: {
@@ -126,8 +103,8 @@ const medusaConfig = {
             resolve: '@medusajs/payment-stripe',
             id: 'stripe',
             options: {
-              apiKey: STRIPE_API_KEY,
-              webhookSecret: STRIPE_WEBHOOK_SECRET,
+              apiKey: config.STRIPE_API_KEY,
+              webhookSecret: config.STRIPE_WEBHOOK_SECRET,
             },
           },
         ],
@@ -135,12 +112,12 @@ const medusaConfig = {
     }] : [])
   ],
   plugins: [
-  ...(MEILISEARCH_HOST && MEILISEARCH_ADMIN_KEY ? [{
+  ...(config.MEILISEARCH_HOST && config.MEILISEARCH_ADMIN_KEY ? [{
       resolve: '@rokmohar/medusa-plugin-meilisearch',
       options: {
         config: {
-          host: MEILISEARCH_HOST,
-          apiKey: MEILISEARCH_ADMIN_KEY
+          host: config.MEILISEARCH_HOST,
+          apiKey: config.MEILISEARCH_ADMIN_KEY
         },
         settings: {
           products: {
@@ -160,5 +137,4 @@ const medusaConfig = {
   ]
 };
 
-console.log(JSON.stringify(medusaConfig, null, 2));
 export default defineConfig(medusaConfig);
