@@ -10,10 +10,10 @@ if (!fs.existsSync(MEDUSA_SERVER_PATH)) {
 }
 
 // Copy pnpm-lock.yaml
-fs.copyFileSync(
+/*fs.copyFileSync(
   path.join(process.cwd(), 'pnpm-lock.yaml'),
   path.join(MEDUSA_SERVER_PATH, 'pnpm-lock.yaml')
-);
+);*/
 
 // Copy .env if it exists
 const envPath = path.join(process.cwd(), '.env');
