@@ -1,102 +1,39 @@
 import { loadEnv } from '@medusajs/framework/utils'
 
-import { assertValue } from '../utils/assert-value'
+import { assertValue, safeEnv } from '../utils/assert-value'
 
 loadEnv(process.env.NODE_ENV || 'development', process.cwd())
 
-/**
- * Is development environment
- */
 export const IS_DEV = process.env.NODE_ENV === 'development'
 
-/**
- * Public URL for the backend
- */
-export const BACKEND_URL = process.env.BACKEND_PUBLIC_URL ?? process.env.RAILWAY_PUBLIC_DOMAIN_VALUE ?? 'http://localhost:9000'
+export const BACKEND_URL = safeEnv('BACKEND_PUBLIC_URL', safeEnv('RAILWAY_PUBLIC_DOMAIN_VALUE', 'http://localhost:9000'))
 
-/**
- * Database URL for Postgres instance used by the backend
- */
-export const DATABASE_URL = assertValue(
-  process.env.DATABASE_URL,
-  'Environment variable for DATABASE_URL is not set',
-)
+export const DATABASE_URL = safeEnv('DATABASE_URL')
+export const REDIS_URL = safeEnv('REDIS_URL')
 
-/**
- * (optional) Redis URL for Redis instance used by the backend
- */
-export const REDIS_URL = process.env.REDIS_URL;
+export const ADMIN_CORS = safeEnv('ADMIN_CORS', '*')
+export const AUTH_CORS = safeEnv('AUTH_CORS', '*')
+export const STORE_CORS = safeEnv('STORE_CORS', '*')
 
-/**
- * Admin CORS origins
- */
-export const ADMIN_CORS = process.env.ADMIN_CORS || '*';
+export const JWT_SECRET = safeEnv('JWT_SECRET')
+export const COOKIE_SECRET = safeEnv('COOKIE_SECRET')
 
-/**
- * Auth CORS origins
- */
-export const AUTH_CORS = process.env.AUTH_CORS || '*';
+export const MINIO_ENDPOINT = safeEnv('MINIO_ENDPOINT')
+export const MINIO_ACCESS_KEY = safeEnv('MINIO_ACCESS_KEY')
+export const MINIO_SECRET_KEY = safeEnv('MINIO_SECRET_KEY')
+export const MINIO_BUCKET = safeEnv('MINIO_BUCKET')
 
-/**
- * Store/frontend CORS origins
- */
-export const STORE_CORS = process.env.STORE_CORS || '*';
+export const RESEND_API_KEY = safeEnv('RESEND_API_KEY')
+export const RESEND_FROM_EMAIL = safeEnv('RESEND_FROM_EMAIL', safeEnv('RESEND_FROM'))
 
-/**
- * JWT Secret used for signing JWT tokens
- */
-export const JWT_SECRET = assertValue(
-  process.env.JWT_SECRET,
-  'Environment variable for JWT_SECRET is not set',
-)
+export const SENDGRID_API_KEY = safeEnv('SENDGRID_API_KEY')
+export const SENDGRID_FROM_EMAIL = safeEnv('SENDGRID_FROM_EMAIL', safeEnv('SENDGRID_FROM'))
 
-/**
- * Cookie secret used for signing cookies
- */
-export const COOKIE_SECRET = assertValue(
-  process.env.COOKIE_SECRET,
-  'Environment variable for COOKIE_SECRET is not set',
-)
+export const STRIPE_API_KEY = safeEnv('STRIPE_API_KEY')
+export const STRIPE_WEBHOOK_SECRET = safeEnv('STRIPE_WEBHOOK_SECRET')
 
-/**
- * (optional) Minio configuration for file storage
- */
-export const MINIO_ENDPOINT = process.env.MINIO_ENDPOINT;
-export const MINIO_ACCESS_KEY = process.env.MINIO_ACCESS_KEY;
-export const MINIO_SECRET_KEY = process.env.MINIO_SECRET_KEY;
-export const MINIO_BUCKET = process.env.MINIO_BUCKET; // Optional, if not set bucket will be called: medusa-media
+export const MEILISEARCH_HOST = safeEnv('MEILISEARCH_HOST')
+export const MEILISEARCH_ADMIN_KEY = safeEnv('MEILISEARCH_ADMIN_KEY')
 
-/**
- * (optional) Resend API Key and from Email - do not set if using SendGrid
- */
-export const RESEND_API_KEY = process.env.RESEND_API_KEY;
-export const RESEND_FROM_EMAIL = process.env.RESEND_FROM_EMAIL || process.env.RESEND_FROM;
-
-/**
- * (optionl) SendGrid API Key and from Email - do not set if using Resend
- */
-export const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
-export const SENDGRID_FROM_EMAIL = process.env.SENDGRID_FROM_EMAIL || process.env.SENDGRID_FROM;
-
-/**
- * (optional) Stripe API key and webhook secret
- */
-export const STRIPE_API_KEY = process.env.STRIPE_API_KEY;
-export const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
-
-/**
- * (optional) Meilisearch configuration
- */
-export const MEILISEARCH_HOST = process.env.MEILISEARCH_HOST;
-export const MEILISEARCH_ADMIN_KEY = process.env.MEILISEARCH_ADMIN_KEY;
-
-/**
- * Worker mode
- */
-export const WORKER_MODE =
-  (process.env.MEDUSA_WORKER_MODE as 'worker' | 'server' | 'shared' | undefined) ?? 'shared'
-
-/**
- * Disable Admin
- */
+export const WORKER_MODE = (process.env.MEDUSA_WORKER_MODE as 'worker' | 'server' | 'shared' | undefined) ?? 'shared'
 export const SHOULD_DISABLE_ADMIN = process.env.MEDUSA_DISABLE_ADMIN === 'true'

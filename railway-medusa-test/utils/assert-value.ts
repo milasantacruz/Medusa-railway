@@ -13,3 +13,11 @@ export function assertValue<T extends string | undefined>(
 
   return v
 }
+
+
+export const safeEnv = (key: string, fallback?: string): string => {
+  const value = process.env[key]
+  if (value !== undefined) return value
+  if (fallback !== undefined) return fallback
+  return '' // fallback por defecto si no se define nada
+}
