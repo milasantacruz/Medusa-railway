@@ -48,7 +48,10 @@ ENV DATABASE_URL=$DATABASE_URL \
     MEILISEARCH_HOST=$MEILISEARCH_HOST \
     MEILISEARCH_ADMIN_KEY=$MEILISEARCH_ADMIN_KEY
 
-# Instalar dependencias
+# Instalar dependencias del sistema
+RUN apt-get update && apt-get install -y dos2unix
+
+# Instalar dependencias Node.js
 RUN yarn install
 
 # Ejecutar build y luego corregir saltos de línea en archivos generados
@@ -57,6 +60,4 @@ RUN yarn build && \
 
 WORKDIR /app/.medusa/client
 EXPOSE 9000
-
-# Debe estar al final
 CMD ["yarn", "start"]
