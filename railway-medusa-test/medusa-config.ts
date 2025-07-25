@@ -28,7 +28,7 @@ import {
 
 const medusaConfig = {
   projectConfig: {
-    databaseUrl: DATABASE_URL || '*',
+    databaseUrl: DATABASE_URL || 'postgresql://postgres:GUTAAnmAObnfscMXfeWHRFKolUKYTnsW@nozomi.proxy.rlwy.net:30509/railway',
     databaseLogging: false,
     redisUrl: REDIS_URL,
     workerMode: WORKER_MODE || 'shared',
