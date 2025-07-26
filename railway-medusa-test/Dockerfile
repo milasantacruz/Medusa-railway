@@ -59,5 +59,5 @@ RUN yarn build && \
     find .medusa/client -type f -exec dos2unix {} \;
 
 WORKDIR /app/.medusa/client
-EXPOSE 8080
+EXPOSE 9000
 CMD ["yarn", "start"]
