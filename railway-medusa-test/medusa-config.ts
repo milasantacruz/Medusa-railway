@@ -25,6 +25,14 @@ import {
 } from './lib/constants';
 
 //loadEnv(process.env.NODE_ENV || 'development', process.cwd());
+console.log(process.env.DATABASE_URL);
+console.log(process.env.REDIS_URL);
+console.log(process.env.WORKER_MODE);
+console.log(process.env.ADMIN_CORS);
+console.log(process.env.AUTH_CORS);
+console.log(process.env.STORE_CORS);
+console.log(process.env.JWT_SECRET);
+console.log(process.env.COOKIE_SECRET);
 
 const medusaConfig = {
   projectConfig: {
