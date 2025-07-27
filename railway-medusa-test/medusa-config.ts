@@ -18,7 +18,7 @@ const medusaConfig = {
     databaseUrl: process.env.DATABASE_URL || 'postgresql://postgres:GUTAAnmAObnfscMXfeWHRFKolUKYTnsW@nozomi.proxy.rlwy.net:30509/railway',
     databaseLogging: false,
     redisUrl: process.env.REDIS_URL,
-    workerMode: process.env.WORKER_MODE || 'shared',
+    workerMode: (process.env.WORKER_MODE || 'shared') as 'shared' | 'worker' | 'server',
     http: {
       adminCors: process.env.ADMIN_CORS|| 'https://medusa-railway-production-e40c.up.railway.app',
       authCors: process.env.AUTH_CORS|| 'https://medusa-railway-production-e40c.up.railway.app',
