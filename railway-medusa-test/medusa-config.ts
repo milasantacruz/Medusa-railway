@@ -25,6 +25,7 @@ import {
 } from './lib/constants';
 
 //loadEnv(process.env.NODE_ENV || 'development', process.cwd());
+console.log(process.env.BACKEND_URL);
 console.log(process.env.DATABASE_URL);
 console.log(process.env.REDIS_URL);
 console.log(process.env.WORKER_MODE);
