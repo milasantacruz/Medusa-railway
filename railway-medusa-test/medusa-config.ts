@@ -65,7 +65,7 @@ const medusaConfig = {
     }
   },
   admin: {
-    backendUrl: "https://medusa-railway-production-e40c.up.railway.app",
+    backendUrl: BACKEND_URL,
     disable: SHOULD_DISABLE_ADMIN,
   },
  /* modules: [
