@@ -1,28 +1,5 @@
-import { Modules, defineConfig } from '@medusajs/utils';
-import {
-  ADMIN_CORS,
-  AUTH_CORS,
-  BACKEND_URL,
-  COOKIE_SECRET,
-  DATABASE_URL,
-  JWT_SECRET,
-  REDIS_URL,
-  WORKER_MODE,
-  STORE_CORS,
-  SHOULD_DISABLE_ADMIN,
-  /*RESEND_API_KEY,
-  RESEND_FROM_EMAIL,
-  SENDGRID_API_KEY,
-  SENDGRID_FROM_EMAIL,
-  STRIPE_API_KEY,
-  STRIPE_WEBHOOK_SECRET,
-  MINIO_ENDPOINT,
-  MINIO_ACCESS_KEY,
-  MINIO_SECRET_KEY,
-  MINIO_BUCKET,
-  MEILISEARCH_HOST,
-  MEILISEARCH_ADMIN_KEY*/
-} from './lib/constants';
+import { defineConfig } from '@medusajs/utils';
+
 
 //loadEnv(process.env.NODE_ENV || 'development', process.cwd());
 console.log(process.env.BACKEND_URL);
@@ -35,28 +12,19 @@ console.log(process.env.STORE_CORS);
 console.log(process.env.JWT_SECRET);
 console.log(process.env.COOKIE_SECRET);
 
-console.log(BACKEND_URL);
-console.log(DATABASE_URL);
-console.log(REDIS_URL);
-console.log(WORKER_MODE);
-console.log(ADMIN_CORS);
-console.log(AUTH_CORS);
-console.log(STORE_CORS);
-console.log(JWT_SECRET);
-console.log(COOKIE_SECRET);
 
 const medusaConfig = {
   projectConfig: {
-    databaseUrl: DATABASE_URL || 'postgresql://postgres:GUTAAnmAObnfscMXfeWHRFKolUKYTnsW@nozomi.proxy.rlwy.net:30509/railway',
+    databaseUrl: process.env.DATABASE_URL || 'postgresql://postgres:GUTAAnmAObnfscMXfeWHRFKolUKYTnsW@nozomi.proxy.rlwy.net:30509/railway',
     databaseLogging: false,
-    redisUrl: REDIS_URL,
-    workerMode: WORKER_MODE || 'shared',
+    redisUrl: process.env.REDIS_URL,
+    workerMode: process.env.WORKER_MODE || 'shared',
     http: {
-      adminCors: ADMIN_CORS|| 'https://medusa-railway-production-e40c.up.railway.app',
-      authCors: AUTH_CORS|| 'https://medusa-railway-production-e40c.up.railway.app',
-      storeCors: STORE_CORS|| '*',
-      jwtSecret: JWT_SECRET || 'supersecret',
-      cookieSecret: COOKIE_SECRET || 'supersecret'
+      adminCors: process.env.ADMIN_CORS|| 'https://medusa-railway-production-e40c.up.railway.app',
+      authCors: process.env.AUTH_CORS|| 'https://medusa-railway-production-e40c.up.railway.app',
+      storeCors: process.env.STORE_CORS|| '*',
+      jwtSecret: process.env.JWT_SECRET || 'supersecret',
+      cookieSecret: process.env.COOKIE_SECRET || 'supersecret'
     },
     build: {
       rollupOptions: {
@@ -66,7 +34,7 @@ const medusaConfig = {
   },
   admin: {
     backendUrl: process.env.BACKEND_PUBLIC_URL || process.env.RAILWAY_PUBLIC_DOMAIN_VALUE || 'https://medusa-railway-production-e40c.up.railway.app',
-    disable: SHOULD_DISABLE_ADMIN,
+    disable: process.env.SHOULD_DISABLE_ADMIN,
   },
  /* modules: [
     {
