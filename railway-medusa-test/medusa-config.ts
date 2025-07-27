@@ -35,6 +35,16 @@ console.log(process.env.STORE_CORS);
 console.log(process.env.JWT_SECRET);
 console.log(process.env.COOKIE_SECRET);
 
+console.log(BACKEND_URL);
+console.log(DATABASE_URL);
+console.log(REDIS_URL);
+console.log(WORKER_MODE);
+console.log(ADMIN_CORS);
+console.log(AUTH_CORS);
+console.log(STORE_CORS);
+console.log(JWT_SECRET);
+console.log(COOKIE_SECRET);
+
 const medusaConfig = {
   projectConfig: {
     databaseUrl: DATABASE_URL || 'postgresql://postgres:GUTAAnmAObnfscMXfeWHRFKolUKYTnsW@nozomi.proxy.rlwy.net:30509/railway',
