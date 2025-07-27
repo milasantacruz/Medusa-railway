@@ -2,29 +2,40 @@ const fs = require('fs');
 const { execSync } = require('child_process');
 const path = require('path');
 
-const MEDUSA_SERVER_PATH = path.join(process.cwd(), '.medusa', 'client');
+const ROOT = process.cwd();
+const MEDUSA_BUILD_PATH = path.join(ROOT, '.medusa', 'client');
+const ENV_FILE_PATH = path.join(ROOT, '.env');
 
-// Check if .medusa/server exists - if not, build process failed
-if (!fs.existsSync(MEDUSA_SERVER_PATH)) {
-  throw new Error('.medusa/server directory not found. This indicates the Medusa build process failed. Please check for build errors.');
+function log(message) {
+  console.log(`[Medusa:prepare] ${message}`);
 }
 
-// Copy pnpm-lock.yaml
-/*fs.copyFileSync(
-  path.join(process.cwd(), 'pnpm-lock.yaml'),
-  path.join(MEDUSA_SERVER_PATH, 'pnpm-lock.yaml')
-);*/
-
-// Copy .env if it exists
-const envPath = path.join(process.cwd(), '.env');
-if (fs.existsSync(envPath)) {
-  fs.copyFileSync(
-    envPath,
-    path.join(MEDUSA_SERVER_PATH, '.env')
+// 1. Verificar que el build se haya generado
+if (!fs.existsSync(MEDUSA_BUILD_PATH)) {
+  throw new Error(
+    `.medusa/client no encontrado. Asegurate de haber corrido 'medusa build' correctamente antes de este paso.`
   );
 }
+log('Build de Medusa encontrado en .medusa/client');
 
-// Install dependencies
-console.log('Installing dependencies in .medusa/server...');
-execSync('yarn install --production --frozen-lockfile', { cwd: MEDUSA_SERVER_PATH, stdio: 'inherit' });
+// 2. Copiar archivo .env
+if (fs.existsSync(ENV_FILE_PATH)) {
+  const target = path.join(MEDUSA_BUILD_PATH, '.env');
+  fs.copyFileSync(ENV_FILE_PATH, target);
+  log('.env copiado a .medusa/client');
+} else {
+  log('Advertencia: No se encontró archivo .env en el root. Las variables de entorno pueden faltar en producción.');
+}
 
+// 3. Instalar dependencias en el build de producción
+try {
+  log('Instalando dependencias con yarn (modo producción)...');
+  execSync('yarn install --production --frozen-lockfile', {
+    cwd: MEDUSA_BUILD_PATH,
+    stdio: 'inherit',
+  });
+  log('Dependencias instaladas correctamente');
+} catch (err) {
+  console.error('[Medusa:prepare] Error al instalar dependencias:', err.message);
+  process.exit(1);
+}
