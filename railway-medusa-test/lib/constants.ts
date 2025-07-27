@@ -5,6 +5,7 @@ import { assertValue, safeEnv } from '../utils/assert-value'
 loadEnv(process.env.NODE_ENV || 'development', process.cwd())
 
 export const IS_DEV = process.env.NODE_ENV === 'development'
+console.log("IS:::DEV:::", IS_DEV)
 
 export const BACKEND_URL = safeEnv('BACKEND_PUBLIC_URL', safeEnv('RAILWAY_PUBLIC_DOMAIN_VALUE', 'http://localhost:9000'))
 
