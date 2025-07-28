@@ -2,6 +2,7 @@ import { defineConfig, loadEnv } from '@medusajs/utils';
 
 
 loadEnv(process.env.NODE_ENV || 'development', process.cwd());
+console.log(process.env.NODE_ENV);
 console.log(process.env.BACKEND_URL);
 console.log(process.env.DATABASE_URL);
 console.log(process.env.REDIS_URL);
@@ -33,7 +34,7 @@ const medusaConfig = {
     }
   },
   admin: {
-    backendUrl: process.env.BACKEND_PUBLIC_URL || process.env.RAILWAY_PUBLIC_DOMAIN_VALUE || 'https://medusa-railway-production-e40c.up.railway.app',
+    backendUrl: process.env.BACKEND_PUBLIC_URL || process.env.RAILWAY_PUBLIC_DOMAIN_VALUE || process.env.BACKEND_URL || 'https://medusa-railway-production-e40c.up.railway.app',
     disable: process.env.SHOULD_DISABLE_ADMIN === "true" || false,
   },
  /* modules: [
