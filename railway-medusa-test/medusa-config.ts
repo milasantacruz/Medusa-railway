@@ -1,7 +1,7 @@
-import { defineConfig } from '@medusajs/utils';
+import { defineConfig, loadEnv } from '@medusajs/utils';
 
 
-//loadEnv(process.env.NODE_ENV || 'development', process.cwd());
+loadEnv(process.env.NODE_ENV || 'development', process.cwd());
 console.log(process.env.BACKEND_URL);
 console.log(process.env.DATABASE_URL);
 console.log(process.env.REDIS_URL);
