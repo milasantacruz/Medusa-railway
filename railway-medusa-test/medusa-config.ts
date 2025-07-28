@@ -34,7 +34,7 @@ const medusaConfig = {
   },
   admin: {
     backendUrl: process.env.BACKEND_PUBLIC_URL || process.env.RAILWAY_PUBLIC_DOMAIN_VALUE || 'https://medusa-railway-production-e40c.up.railway.app',
-    disable: process.env.SHOULD_DISABLE_ADMIN,
+    disable: process.env.SHOULD_DISABLE_ADMIN === "true" || false,
   },
  /* modules: [
     {
